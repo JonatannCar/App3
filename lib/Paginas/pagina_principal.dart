@@ -13,6 +13,7 @@ class AppPrincipal extends StatefulWidget {
 
 class _AppPrincipalState extends State<AppPrincipal> {
   final storage = const FlutterSecureStorage();
+
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;

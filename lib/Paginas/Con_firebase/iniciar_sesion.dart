@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 import 'package:tesis_aplicacion/Paginas/Con_firebase/registrarse.dart';
 
 import '../pagina_principal.dart';
