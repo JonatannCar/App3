@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "101327326835",
+    "project_id": "dispensador-tesis-b8a34",
+    "storage_bucket": "dispensador-tesis-b8a34.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101327326835:android:ac036b30821de76648a406",
+        "android_client_info": {
+          "package_name": "com.example.tesis_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "101327326835-94lfb2nfbf0hntvv1tih4o0ljjnvs15v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tesis_app",
+            "certificate_hash": "e033f70a937c593d4adc7222b2a34b5e73c13cca"
+          }
+        },
+        {
+          "client_id": "101327326835-8s3di20fje8pdshedhntsoovf8p31n1m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHmsauE2tGniEihb49OE4bXGyxOiy_WaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "101327326835-8s3di20fje8pdshedhntsoovf8p31n1m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
