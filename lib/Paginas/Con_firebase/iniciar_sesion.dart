@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tesis_aplicacion/Paginas/Con_firebase/registrarse.dart';
 
 import '../pagina_principal.dart';
@@ -32,6 +32,31 @@ class _PaginaIniciarSesionState extends State<PaginaIniciarSesion> {
   bool isLoading = false;
 
 /////////////////////// EMPIEZA INICIO DE SESIÓN CON GOOGLE ///////////////////////
+
+  Future<UserCredential> ingresarconGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    final GoogleSignInAuthentication? autentication =
+        await googleUser?.authentication;
+
+    final credentials = GoogleAuthProvider.credential(
+        accessToken: autentication!.accessToken,
+        idToken: autentication.idToken);
+    return await FirebaseAuth.instance.signInWithCredential(credentials);
+  }
+
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  // final GoogleSignIn googleSignIn = GoogleSignIn();
+
+  // Future<UserCredential> _signInWithGoogle() async {
+  //   final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+  //   final GoogleSignInAuthentication googleAuth =
+  //       await googleUser!.authentication;
+  //   final AuthCredential credential = GoogleAuthProvider.credential(
+  //     accessToken: googleAuth.accessToken,
+  //     idToken: googleAuth.idToken,
+  //   );
+  //   return await _auth.signInWithCredential(credential);
+  // }
 
 //////////////////// TERMINA INICIO DE SESIÓN CON GOOGLE /////////////////////////
 
@@ -338,9 +363,46 @@ class _PaginaIniciarSesionState extends State<PaginaIniciarSesion> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ElevatedButton.icon(
-                              onPressed: () {},
+                              onPressed: () async {
+                                await ingresarconGoogle();
+                                if (FirebaseAuth.instance.currentUser != null) {
+                                  Future.microtask(() {
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const AppPrincipal()),
+                                        (Route<dynamic> route) => false);
+                                  });
+                                }
+                                // await _signInWithGoogle();
+                                // Future.microtask(() {
+                                //   Navigator.pushReplacement(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //       builder: (context) =>
+                                //           const AppPrincipal(),
+                                //     ),
+                                //   );
+                                // });
 
-                              //.catchError((e) => print(e)),
+                                // ignore: unused_local_variable
+                                ////////////////////////// 2 ////////////////////
+                                //   User? user =
+                                //       await Authenticator.IniciarSesionconGoogle(
+                                //           context: context);
+                                //   Future.microtask(() {
+                                //     Navigator.pushReplacement(
+                                //       context,
+                                //       MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             const AppPrincipal(),
+                                //       ),
+                                //     );
+                                //   });
+                              },
+                              ////////////////////////// 2 ////////////////////
+
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
                                 shape: const RoundedRectangleBorder(
@@ -403,3 +465,35 @@ Widget IniciarSesionTextoAyuda() {
     textAlign: TextAlign.center,
   );
 }
+
+// class Authenticator {
+//   // ignore: non_constant_identifier_names
+//   static Future<User?> IniciarSesionconGoogle(
+//       {required BuildContext context}) async {
+//     FirebaseAuth authenticator = FirebaseAuth.instance;
+
+//     User? user;
+//     GoogleSignIn objGoogleSignIn = GoogleSignIn();
+//     GoogleSignInAccount? objGoogleSignInAccount =
+//         await objGoogleSignIn.signIn();
+
+//     if (objGoogleSignInAccount != null) {
+//       GoogleSignInAuthentication objGoogleSignInAuthentication =
+//           await objGoogleSignInAccount.authentication;
+
+//       AuthCredential credential = GoogleAuthProvider.credential(
+//           accessToken: objGoogleSignInAuthentication.accessToken,
+//           idToken: objGoogleSignInAuthentication.idToken);
+//       try {
+//         UserCredential userCredential =
+//             await authenticator.signInWithCredential(credential);
+//         user = userCredential.user;
+//         return user;
+//       } on FirebaseAuthException {
+//         // ignore: avoid_print
+//         print('Error en la autenticación');
+//       }
+//     }
+//     return null;
+//   }
+// }

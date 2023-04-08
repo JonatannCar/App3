@@ -9,7 +9,7 @@ import 'Paginas/pagina_principal.dart';
 void main() async {
   WidgetsFlutterBinding
       .ensureInitialized(); // Se asegura que los widgets de Flutter estén correctamente inicializados
-  //await Firebase.initializeApp();
+  await Firebase.initializeApp();
 
   runApp(
       PaginaBase()); // Se ejecuta la aplicación, pasando como argumento una instancia de la clase PaginaBase

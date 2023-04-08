@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Con_firebase/iniciar_sesion.dart';
 
@@ -13,10 +15,35 @@ class AppPrincipal extends StatefulWidget {
 
 class _AppPrincipalState extends State<AppPrincipal> {
   final storage = const FlutterSecureStorage();
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  // ignore: unused_field
+  //late String _displayName;
+  // String _displayName;
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  void _loadUserData() async {
+    //String? displayName = prefs.getString('displayName');
+    setState(() {
+      //_displayName = displayName!;
+    });
+  }
+
+  void _signOut() async {
+    await googleSignIn.signOut();
+    await auth.signOut();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
+
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -40,6 +67,8 @@ class _AppPrincipalState extends State<AppPrincipal> {
               const Text("Bienvenido "),
               ElevatedButton(
                 onPressed: () async => {
+                  _signOut(),
+                  Navigator.of(context).pop(),
                   await FirebaseAuth.instance.signOut(),
                   await storage.delete(key: 'uid'),
                   Navigator.pushAndRemoveUntil(
